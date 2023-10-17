@@ -20,11 +20,17 @@ class CreateUser extends UsecaseWithParams<void, CreateUserParams> {
 
 class CreateUserParams extends Equatable {
 
-  CreateUserParams({
+  const CreateUserParams({
     required this.createdAt,
     required this.name,
     required this.avater,
   });
+
+  const CreateUserParams.empty() :
+      this(createdAt: '_empty.createdAt',
+      name: '_empty.name',
+        avater: '_empty.avater'
+      );
 
   final String createdAt;
   final String name;

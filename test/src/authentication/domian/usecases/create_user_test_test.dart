@@ -9,34 +9,52 @@
 *
 * */
 
-
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_toy/src/authentication/domian/repositories/authentication_repository.dart';
 import 'package:flutter_toy/src/authentication/domian/usecases/create_user.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockAuthRepo extends Mock implements AuthenticationRepository {
+import 'authentication_repository.mock.dart';
 
-}
-
-void main(){
+void main() {
   late CreateUser usecase;
   late AuthenticationRepository repository;
 
-  setUpAll((){
+  setUpAll(() {
     repository = MockAuthRepo();
     usecase = CreateUser(repository);
   });
 
-  test('should call the [AuthRepo.createUser]', () async{
-    // Arrange
-    when(() => repository.createUser(
-        createdAt: any(),
-        name: name,
-        avater: avater))
-    ;
-    // Act
-    usecase(params);
-    // Assert
-  });
+  const params = CreateUserParams.empty();
+
+  test(
+    'should call the [AuthRepo.createUser]',
+    () async {
+      // Arrange
+      // STUB
+      when(
+        () => repository.createUser(
+          createdAt: any(named: 'createdAt'),
+          name: any(named: 'name'),
+          avater: any(named: 'avater'),
+        ),
+        // Right(null) 오른쪽 값이 성공, 즉 비어있으면 성공이라는 것
+        // dartz의 패키지의 Either 오른쪽 값을 나타냄
+      ).thenAnswer((_) async => const Right(null));
+      // Action
+      final result = await usecase(params);
+
+      // Assert
+      expect(result, equals(const Right<dynamic, void>(null)));
+      verify(
+        () => repository.createUser(
+            createdAt: params.createdAt,
+            name: params.name,
+            avater: params.avater),
+      ).called(1);
+
+      verifyNoMoreInteractions(repository);
+    },
+  );
 }
