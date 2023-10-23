@@ -68,9 +68,9 @@ void main(){
     // Arrange
 
     // Act
-    final result = tModel.copyWith(name: 'Paul');
+    final result = tModel.copyWith(name: 'min');
 
-    expect(result.name, equals('Paul'));
+    expect(result.name, equals('min'));
     });
   });
 }
