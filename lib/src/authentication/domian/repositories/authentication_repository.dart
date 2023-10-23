@@ -7,7 +7,7 @@ abstract class AuthenticationRepository {
   ResultVoid createUser({
     required String createdAt,
     required String name,
-    required String avater,
+    required String avatar,
   });
 
   ResultFuture<List<User>> getUsers();

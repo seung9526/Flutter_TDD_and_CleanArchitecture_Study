@@ -5,7 +5,7 @@ import 'package:flutter_toy/src/core/utils/typedef.dart';
 
 class UserModel extends User {
   const UserModel({
-    required super.avater,
+    required super.avatar,
     required super.id,
     required super.createdAt,
     required super.name,
@@ -15,18 +15,19 @@ class UserModel extends User {
     id: '1',
     createdAt: '_empty.createdAt',
     name: '_empty.name',
-    avater: '_empty.avatar',
+    avatar: '_empty.avatar',
   );
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(jsonDecode(source) as DataMap);
+  factory UserModel.fromJson(String source)
+  => UserModel.fromMap(jsonDecode(source) as DataMap);
 
   UserModel.fromMap(DataMap map) :
-    this(
-      avater: map['avater'] as String,
+        this(
+        avatar: map['avatar'] as String,
         id: map['id'] as String,
         createdAt: map['createdAt'] as String,
-        name : map['name'] as String,
-    );
+        name: map['name'] as String,
+      );
 
   UserModel copyWith({
     String? avatar,
@@ -35,20 +36,21 @@ class UserModel extends User {
     String? name,
   }) {
     return UserModel(
-        avater: avater ?? this.avater,
-        id: id ?? this.id,
-        createdAt: createdAt ?? this.createdAt,
-        name: name ?? this.name,
+      avatar: avatar ?? this.avatar,
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      name: name ?? this.name,
     );
   }
 
-  DataMap toMap() =>{
-    'id' : id,
-    'avator' : avater,
-    'createdAt' : createdAt,
-    'name' : name,
-  };
+  DataMap toMap() {
+    return {
+      'id': id,
+      'avatar': avatar,
+      'createdAt': createdAt,
+      'name': name,
+    };
+  }
 
   String toJson() => jsonEncode(toMap());
-
 }

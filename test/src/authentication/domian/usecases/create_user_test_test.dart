@@ -37,7 +37,7 @@ void main() {
         () => repository.createUser(
           createdAt: any(named: 'createdAt'),
           name: any(named: 'name'),
-          avater: any(named: 'avater'),
+          avatar: any(named: 'avatar'),
         ),
         // Right(null) 오른쪽 값이 성공, 즉 비어있으면 성공이라는 것
         // dartz의 패키지의 Either 오른쪽 값을 나타냄
@@ -51,7 +51,7 @@ void main() {
         () => repository.createUser(
             createdAt: params.createdAt,
             name: params.name,
-            avater: params.avater),
+            avatar: params.avatar),
       ).called(1);
 
       verifyNoMoreInteractions(repository);
