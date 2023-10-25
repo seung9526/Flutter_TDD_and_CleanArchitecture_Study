@@ -2,6 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_toy/src/authentication/domian/data/datasources/authentication_remote_data_source.dart';
 import 'package:flutter_toy/src/authentication/domian/data/repositories/authentication_repository_implementation.dart';
+import 'package:flutter_toy/src/core/error/exceptions.dart';
+import 'package:flutter_toy/src/core/error/failure.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthRemoteDataSrc extends Mock
@@ -16,17 +18,23 @@ void main() {
     repoImpl = AuthenticationRepositoryImplementation(remoteDataSource);
   });
 
-  group('createUsers', () {
+  const tException =
+      APIException(message: 'Unknown Error Occurred', statusCode: 500);
+
+  group('getUsers', () {
+    const createdAt = 'whatever.createdAt';
+    const name = 'whatever.name';
+    const avatar = 'whatever.avatar';
     test(
       'should call the [RemoteDatasource.createUsers] and complete'
-          'successfully when the call to the remote source is successful',
-          () async {
+      'successfully when the call to the remote source is successful',
+      () async {
         // arrange
-        when(() =>
-            remoteDataSource.createUsers(
-                createdAt: any(named: 'createdAt'),
-                name: any(named: 'name'),
-                avatar: any(named: 'avatar')),
+        when(
+          () => remoteDataSource.createUsers(
+              createdAt: any(named: 'createdAt'),
+              name: any(named: 'name'),
+              avatar: any(named: 'avatar')),
         ).thenAnswer((_) async => Future.value());
 
         const createdAt = 'whatever.createdAt';
@@ -35,17 +43,45 @@ void main() {
 
         // act
         final result = await repoImpl.createUser(
-            createdAt: createdAt,
-            name: name,
-            avatar: avatar);
+            createdAt: createdAt, name: name, avatar: avatar);
 
         // assert
         expect(result, equals(const Right(null)));
-        verify(() =>
-            remoteDataSource.createUsers(
-                createdAt: createdAt,
-                name: name,
-                avatar: avatar)).called(1);
+        verify(() => remoteDataSource.createUsers(
+            createdAt: createdAt, name: name, avatar: avatar)).called(1);
+        verifyNoMoreInteractions(remoteDataSource);
+      },
+    );
+
+    test(
+      'should return a [ServerFailure] when te call to the remote'
+      ' source is unsuccessful',
+      () async {
+        // Arrange
+        when(() => remoteDataSource.createUsers(
+            createdAt: any(named: 'createdAt'),
+            name: any(named: 'name'),
+            avatar: any(named: 'avatar'))).thenThrow(tException);
+
+        final result = await repoImpl.createUser(
+          createdAt: createdAt,
+          name: name,
+          avatar: avatar,
+        );
+
+        expect(
+          result,
+          equals(
+            Left(
+              APIFailure(
+                  message: tException.message,
+                  statusCode: tException.statusCode,
+              ),
+            ),
+          ),
+        );
+        verify(() => remoteDataSource.createUsers(
+            createdAt: createdAt, name: name, avatar: avatar)).called(1);
         verifyNoMoreInteractions(remoteDataSource);
       },
     );

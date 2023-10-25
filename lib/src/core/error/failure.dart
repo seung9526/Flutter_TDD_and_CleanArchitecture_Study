@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_toy/src/core/error/exceptions.dart';
 
 abstract class Failure extends Equatable {
   const Failure({
@@ -7,17 +8,19 @@ abstract class Failure extends Equatable {
 });
 
   final String message;
-  final String statusCode;
+  final int statusCode;
 
   @override
   List<Object> get props => [message, statusCode];
 }
 
-class ApiFailure extends Failure {
-  const ApiFailure({
+class APIFailure extends Failure {
+  const APIFailure({
     required super.message,
     required super.statusCode
 });
 
+  APIFailure.fromException(APIException exception)
+      : this(message: exception.message, statusCode: exception.statusCode);
 
 }
