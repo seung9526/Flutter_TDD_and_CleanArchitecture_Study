@@ -23,4 +23,8 @@ void main() {
   test('initial state should be [AuthenticationInitial', () async {
     expect(cubit.state, const AuthenticationInitial());
   });
+
+  group('createUser', () {
+
+  });
 }
