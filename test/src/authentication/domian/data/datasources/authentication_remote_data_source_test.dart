@@ -39,7 +39,7 @@ void main() {
             completes);
 
         verify(
-          () => client.post(Uri.parse('$kBaseUrl$kCreateUserEndopint'),
+          () => client.post(Uri.parse('$kBaseUrl$kCreateUserEndpoint'),
               body: jsonEncode({
                 'createdAt': 'createdAt',
                 'name': 'name',
@@ -73,7 +73,7 @@ void main() {
         );
 
         verify(
-          () => client.post(Uri.parse('$kBaseUrl$kCreateUserEndopint'),
+          () => client.post(Uri.parse('$kBaseUrl$kCreateUserEndpoint'),
               body: jsonEncode({
                 'createdAt': 'createdAt',
                 'name': 'name',

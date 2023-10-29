@@ -17,7 +17,7 @@ abstract class AuthenticationRemoteDataSource {
   Future<List<UserModel>> getUsers();
 }
 
-const kCreateUserEndopint = '/test-api/users';
+const kCreateUserEndpoint = '/test-api/users';
 const kGetUsersEndpoint = '/test-api/users';
 
 class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
@@ -37,12 +37,16 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
     // 2. check to make sure that it "THROWS A CUSTOM EXCEPTION" with the
     // right message when statues code is the bad one
     try{
-      final response = await _client.post(Uri.parse('$kBaseUrl$kCreateUserEndopint'),
+      final response = await _client.post(
+        Uri.https(kBaseUrl, kGetUsersEndpoint),
         body: jsonEncode({
           'createdAt' : createdAt,
           'name' : name,
-          avatar : avatar,
+          'avatar' : avatar,
         }),
+        headers: {
+          'Content-Type' : 'application/json'
+        }
       );
 
       if(response.statusCode != 200 && response.statusCode != 201){
