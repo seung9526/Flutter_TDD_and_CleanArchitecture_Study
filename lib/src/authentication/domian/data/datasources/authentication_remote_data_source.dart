@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_toy/src/authentication/domian/data/models/user_model.dart';
 import 'package:flutter_toy/src/core/error/exceptions.dart';
 import 'package:flutter_toy/src/core/utils/constants.dart';
@@ -17,7 +18,7 @@ abstract class AuthenticationRemoteDataSource {
 }
 
 const kCreateUserEndopint = '/test-api/users';
-const kGetUsersEndpoint = '/test-api//user';
+const kGetUsersEndpoint = '/test-api/users';
 
 class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
 
@@ -63,7 +64,7 @@ class AuthRemoteDataSrcImpl implements AuthenticationRemoteDataSource {
       final response = await _client.get(
         Uri.https(kBaseUrl, kGetUsersEndpoint),
       );
-
+      debugPrint(Uri.https(kBaseUrl, kGetUsersEndpoint).toString());
       if (response.statusCode != 200) {
         throw APIException(
           message: response.body,
