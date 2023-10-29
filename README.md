@@ -8,6 +8,7 @@
 - MockAPI를 이용한 API get, post 사용
 - Clean Architecture 학습
 
-
+### 느낀점
+provider를 사용하다 bloc과 클린아키텍쳐를 공부해보았는데 생각보다 어렵게 느껴짐,,ㅠ 좀 더 분발 해야겠다...
 
 
