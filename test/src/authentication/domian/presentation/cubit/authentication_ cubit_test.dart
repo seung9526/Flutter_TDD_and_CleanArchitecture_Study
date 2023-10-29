@@ -17,4 +17,10 @@ void main() {
     createUser = MockCreateUser();
     cubit = AuthenticationCubit(createUser: createUser, getUsers: getUsers);
   });
+
+  tearDown(() => cubit.close());
+
+  test('initial state should be [AuthenticationInitial', () async {
+    expect(cubit.state, const AuthenticationInitial());
+  });
 }
